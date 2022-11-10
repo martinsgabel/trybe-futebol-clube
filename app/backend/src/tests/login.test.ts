@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+// import Example from '../database/models/ExampleModel';
 
 import { Response } from 'superagent';
 
@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste começa aqui', () => {
+describe('Teste de rota inicial', () => {
   /**
    * Exemplo do uso de stubs com tipos
    */
@@ -39,7 +39,15 @@ describe('Seu teste começa aqui', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+  it('rota geral deve retornar status 200 com mensagem "ok" ', async () => {
+    const httpResponse = await chai.request(app).get('/')
+      expect(httpResponse.status).to.equal(200)
+      expect(httpResponse.body).to.deep.equal({ message: 'ok' })
+  });
+
+  it('rota /login deve retornar status 200 com mensagem "ok" ', async () => {
+    const httpResponse = await chai.request(app).post('/login')
+      expect(httpResponse.status).to.equal(200)
+      expect(httpResponse.body).to.deep.equal({ message: 'ok' })
   });
 });
