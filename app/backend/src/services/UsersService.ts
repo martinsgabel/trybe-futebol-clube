@@ -9,18 +9,26 @@ export default class UsersService {
   public login = async (user: LoginUser) => {
     const { email, password } = user;
 
-    // validando campos
+    // validando se os campos existem
     if (!email || !password) throw new MissingParamError('All fields must be filled');
 
+    // validando se os campos estão preenchidos de forma correta
     const { error } = loginSchema.validate(user);
 
-    // lançando erro, caso haja
     if (error) throw new UnauthorizedError('Incorrect email or password');
 
-    // checagem no banco
+    // checando se USER existe no banco
     const exists = await Users.findOne({ where: { email } }) as Users;
 
-    if (!exists) throw new UnauthorizedError('Incorrect email or password');
+    if (!exists) {
+      throw new UnauthorizedError('Incorrect email or password');
+    }
+
+    // const existingPassword = JWT.decodePassword(password);
+
+    // if (existingPassword.password !== exists.password) {
+    //   throw new UnauthorizedError('Incorrect email or password');
+    // }
 
     // devolvendo token
     const payload = { email: exists.email, role: exists.role };

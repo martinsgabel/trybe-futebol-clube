@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-// import { StatusCodes } from 'http-status-codes';
 import UsersService from '../services/UsersService';
 
 export default class UsersController {
