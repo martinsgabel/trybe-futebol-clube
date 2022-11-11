@@ -4,9 +4,9 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-// import Example from '../database/models/ExampleModel';
-
-import { Response } from 'superagent';
+import { Model } from 'sequelize/types';
+import Users from '../database/models/UsersModel';
+// import UsersService from '../services/UsersService';
 
 chai.use(chaiHttp);
 
@@ -50,4 +50,59 @@ describe('Teste de rota inicial', () => {
       expect(httpResponse.status).to.equal(200)
       expect(httpResponse.body).to.deep.equal({ message: 'ok' })
   });
+
+  it('quando o campo "email" não é informado, retornar erro', async () => {
+    const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ password: 'any_pass' })
+    expect(httpResponse.status).to.equal(400)
+    expect(httpResponse.body).to.deep.equal({ error: 'All fields must be filled' })
+  });
+
+  it('quando o campo "password" não é informado, retornar erro', async () => {
+    const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'email@email.com' })
+    expect(httpResponse.status).to.equal(400)
+    expect(httpResponse.body).to.deep.equal({ error: 'All fields must be filled' })
+  });
+
+  it('quando o email informado não consta no bando de dados retornar erros', async () => {
+    beforeEach(() => sinon.stub(Model, 'findOne').resolves(null))
+
+    afterEach(() => sinon.restore())
+
+    const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'email@email.com' })
+    expect(httpResponse.status).to.equal(401)
+    expect(httpResponse.body).to.deep.equal({ error: 'Incorrect email or password' })
+  });
+
+  /* it('quando o email é encontrado mas a senha é incorreta', async () => {
+    
+  });
+  */
+
+  it('quando as credenciais estão corretas', async () => {
+    const user = { id: 1, username: 'admin', email: 'any_email@email.com', password: '123456' }
+
+    beforeEach(() => sinon.stub(Model, 'findOne').resolves(user as Users))
+
+    // beforeEach(() => sinon.stub(UsersService.prototype, 'checkPassword').returns(true))
+
+    afterEach(() => sinon.restore())
+
+    const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: 'any_email@email.com', password: '123456' })
+    expect(httpResponse.status).to.equal(200)
+    expect(httpResponse.body).to.have.key('token')
+    expect(httpResponse.body.token).to.be.a('string')
+  });
+
 });
