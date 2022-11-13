@@ -70,9 +70,7 @@ describe('Teste de rota inicial', () => {
   });
 
   it('quando o email informado não consta no bando de dados retornar erros', async () => {
-    beforeEach(() => sinon.stub(Model, 'findOne').resolves(null))
-
-    afterEach(() => sinon.restore())
+    sinon.stub(Model, 'findOne').resolves(null)
 
     const httpResponse = await chai
       .request(app)
@@ -80,6 +78,8 @@ describe('Teste de rota inicial', () => {
       .send({ email: 'email@email.com' })
     expect(httpResponse.status).to.equal(401)
     expect(httpResponse.body).to.deep.equal({ error: 'Incorrect email or password' })
+
+    sinon.restore()
   });
 
   /* it('quando o email é encontrado mas a senha é incorreta', async () => {

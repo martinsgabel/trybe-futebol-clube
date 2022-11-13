@@ -2,3 +2,4 @@ joi
 cors
 @types/cors
 http-status-codes
+express-async-errors
