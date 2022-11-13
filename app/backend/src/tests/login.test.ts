@@ -6,7 +6,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import { Model } from 'sequelize/types';
 import Users from '../database/models/UsersModel';
-// import UsersService from '../services/UsersService';
+import UsersService from '../services/UsersService';
 
 chai.use(chaiHttp);
 
@@ -90,11 +90,7 @@ describe('Teste de rota inicial', () => {
   it('quando as credenciais estão corretas', async () => {
     const user = { id: 1, username: 'admin', email: 'any_email@email.com', password: '123456' }
 
-    beforeEach(() => sinon.stub(Model, 'findOne').resolves(user as Users))
-
-    // beforeEach(() => sinon.stub(UsersService.prototype, 'checkPassword').returns(true))
-
-    afterEach(() => sinon.restore())
+    sinon.stub(Model, 'findOne').resolves(user as Users)
 
     const httpResponse = await chai
       .request(app)
@@ -103,6 +99,8 @@ describe('Teste de rota inicial', () => {
     expect(httpResponse.status).to.equal(200)
     expect(httpResponse.body).to.have.key('token')
     expect(httpResponse.body.token).to.be.a('string')
+
+    sinon.restore()
   });
 
 });

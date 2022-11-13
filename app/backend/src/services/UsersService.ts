@@ -1,10 +1,10 @@
+import * as bcrypt from 'bcryptjs';
 import JWT from '../helpers/jwt';
 import Users from '../database/models/UsersModel';
 import { LoginUser } from '../interfaces/services/Login';
 import loginSchema from '../middlewares/loginValidation';
 import MissingParamError from '../errors/MissingParamError';
 import UnauthorizedError from '../errors/UnauthorizedError';
-import { decodingPassword } from '../helpers/bcrypt';
 
 export default class UsersService {
   public login = async (user: LoginUser) => {
@@ -21,7 +21,7 @@ export default class UsersService {
     // checando se USER existe no banco
     const exists = await Users.findOne({ where: { email } }) as Users;
 
-    const existingPassword = decodingPassword(password, exists.password);
+    const existingPassword = bcrypt.compareSync(password, exists.password);
 
     if (!exists || !existingPassword) {
       throw new UnauthorizedError('Incorrect email or password');
