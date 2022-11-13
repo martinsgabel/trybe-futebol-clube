@@ -9,7 +9,7 @@ export default class UsersController {
       const result = await this.usersService.login(req.body);
 
       return res.status(200).json(result);
-    } catch (error: any) {
+    } catch (error) {
       next(error);
     }
   };
