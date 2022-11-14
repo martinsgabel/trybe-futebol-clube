@@ -50,4 +50,54 @@ describe('Teste da rota /matches', () => {
     
     sinon.restore();
   })
+
+  it('a rota /matches?inProgress=true deve retornar as partidas em progresso', async() => {
+    const mockTrue = {
+      "id": 1,
+      "homeTeam": 16,
+      "homeTeamGoals": 1,
+      "awayTeam": 8,
+      "awayTeamGoals": 1,
+      "inProgress": true,
+      "teamHome": {
+        "teamName": "São Paulo"
+      },
+      "teamAway": {
+        "teamName": "Grêmio"
+      }
+    }
+
+    sinon.stub(Matches, 'findAll').resolves(mockTrue as unknown as Matches[]);
+
+    const httpResponse = await chai.request(app).get('/matches?inProgress=true')
+      expect(httpResponse.status).to.equal(200)
+      expect(httpResponse.body).to.deep.equal(mockTrue)
+    
+    sinon.restore();
+  })
+
+  it('a rota /matches?inProgress=false deve retornar as partidas em progresso', async() => {
+    const mockFalse = {
+      "id": 41,
+      "homeTeam": 16,
+      "homeTeamGoals": 2,
+      "awayTeam": 9,
+      "awayTeamGoals": 0,
+      "inProgress": true,
+      "teamHome": {
+        "teamName": "São Paulo"
+      },
+      "teamAway": {
+        "teamName": "Internacional"
+      }
+    }
+
+    sinon.stub(Matches, 'findAll').resolves(mockFalse as unknown as Matches[]);
+
+    const httpResponse = await chai.request(app).get('/matches?inProgress=true')
+      expect(httpResponse.status).to.equal(200)
+      expect(httpResponse.body).to.deep.equal(mockFalse)
+    
+    sinon.restore();
+  })
 })
