@@ -1,5 +1,15 @@
 import Teams from '../database/models/TeamsModel';
 import Matches from '../database/models/MatchesModel';
+import JWT from '../helpers/jwt';
+import UnauthorizedError from '../errors/UnauthorizedError';
+
+interface newMatch {
+  homeTeam: number,
+  awayTeam: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+}
 
 export default class MatchesService {
   public getAllMatches = async () => {
@@ -22,5 +32,17 @@ export default class MatchesService {
     });
 
     return matches;
+  };
+
+  public saveMatch = async (match: newMatch, authorization: string) => {
+    const authorized = JWT.decodePassword(authorization);
+
+    console.log(authorized);
+
+    if (!authorized) throw new UnauthorizedError('Token must be valid');
+
+    const newMatch = await Matches.create(match);
+
+    return newMatch;
   };
 }

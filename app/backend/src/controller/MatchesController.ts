@@ -20,4 +20,14 @@ export default class MatchesController {
 
     return res.status(200).json(result);
   };
+
+  public saveMatch = async (req: Request, res: Response) => {
+    const { body } = req;
+    const { authorization } = req.headers;
+
+    const result = await this.matchesService
+      .saveMatch({ ...body, inProgress: true }, authorization as string);
+
+    return res.status(201).json(result);
+  };
 }

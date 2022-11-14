@@ -6,6 +6,7 @@ const matchesRouter = Router();
 const matchesController = new MatchesController();
 
 matchesRouter
-  .get('/matches', matchesController.getAllMatches);
+  .get('/matches', matchesController.getAllMatches)
+  .post('/matches', matchesController.saveMatch);
 
 export default matchesRouter;

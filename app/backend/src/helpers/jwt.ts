@@ -3,9 +3,9 @@ import 'dotenv/config';
 
 const secret = process.env.JWT_SECRET;
 
-// interface IPayload {
-//   data: object | string | number | Buffer;
-// }
+interface IPayload {
+  data: object | string | number | Buffer;
+}
 
 export default class JWT {
   static createToken = (payload: unknown) => {
@@ -19,8 +19,8 @@ export default class JWT {
     return token;
   };
 
-  // static decodePassword = async (token: string) => {
-  //   const { data } = jwt.verify(token, secret as string) as unknown as IPayload;
-  //   return data;
-  // };
+  static decodePassword = async (token: string) => {
+    const { data } = jwt.verify(token, secret as string) as unknown as IPayload;
+    return data;
+  };
 }
