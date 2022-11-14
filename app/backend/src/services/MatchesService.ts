@@ -12,9 +12,9 @@ export default class MatchesService {
     return allMatches;
   };
 
-  public getMatchesByProgress = async (progress: boolean) => {
+  public getMatchesByProgress = async (inProgress: boolean) => {
     const matches = await Matches.findAll({
-      where: { progress },
+      where: { inProgress },
       include: [
         { model: Teams, as: 'teamHome', attributes: ['teamName'] },
         { model: Teams, as: 'teamAway', attributes: ['teamName'] },

@@ -16,7 +16,7 @@ export default class MatchesController {
 
   public getMatchesByProgress = async (req: Request, res: Response) => {
     const { inProgress } = req.query;
-    const result = await this.matchesService.getMatchesByProgress(inProgress as unknown as boolean);
+    const result = await this.matchesService.getMatchesByProgress(inProgress === 'true');
 
     return res.status(200).json(result);
   };
