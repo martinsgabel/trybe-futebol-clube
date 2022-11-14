@@ -34,4 +34,14 @@ export default class UsersService {
 
     return { token };
   };
+
+  public validate = async (token: string) => {
+    const password = token;
+
+    // checar token na lista de usuários
+    const user = await Users.findOne({ where: { password } });
+
+    // retornar role do usuário
+    return user?.role;
+  };
 }
