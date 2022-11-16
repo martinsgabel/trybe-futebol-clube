@@ -7,6 +7,6 @@ const usersController = new UsersController();
 
 usersRouter
   .post('/login', usersController.login)
-  .get('/login/validate', usersController.validate);
+  .post('/login/validate', usersController.validate);
 
 export default usersRouter;
