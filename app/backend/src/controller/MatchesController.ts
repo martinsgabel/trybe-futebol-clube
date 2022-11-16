@@ -5,20 +5,20 @@ export default class MatchesController {
   constructor(private matchesService = new MatchesService()) { }
 
   public getAllMatches = async (req: Request, res: Response, next: NextFunction) => {
+    const { inProgress } = req.query;
     try {
       const result = await this.matchesService.getAllMatches();
+
+      if (inProgress) {
+        const resProgress = await this.matchesService.getMatchesByProgress(inProgress === 'true');
+
+        return res.status(200).json(resProgress);
+      }
 
       return res.status(200).json(result);
     } catch (error) {
       next(error);
     }
-  };
-
-  public getMatchesByProgress = async (req: Request, res: Response) => {
-    const { inProgress } = req.query;
-    const result = await this.matchesService.getMatchesByProgress(inProgress === 'true');
-
-    return res.status(200).json(result);
   };
 
   public saveMatch = async (req: Request, res: Response) => {
