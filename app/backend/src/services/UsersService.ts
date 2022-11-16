@@ -46,7 +46,7 @@ export default class UsersService {
     // checar token na lista de usuários
     const user = await Users.findOne({ where: { password } });
 
-    if (!user) throw new UnauthorizedError('Incorrect email or password');
+    if (!user) throw new Error();
 
     const { role } = user;
 
