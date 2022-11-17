@@ -24,6 +24,7 @@ export default class JWT {
 
   static decodeToken = async (token: string) => {
     const { data } = await jwt.verify(token, secret as string) as unknown as IPayload;
+
     return data;
   };
 }

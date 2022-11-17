@@ -1,7 +1,7 @@
 import Teams from '../database/models/TeamsModel';
 import Matches from '../database/models/MatchesModel';
-import JWT from '../helpers/jwt';
-import UnauthorizedError from '../errors/UnauthorizedError';
+// import JWT from '../helpers/jwt';
+// import UnauthorizedError from '../errors/UnauthorizedError';
 import MatchError from '../errors/MatchError';
 import MissingId from '../errors/MissingId';
 
@@ -36,19 +36,19 @@ export default class MatchesService {
     return matches;
   };
 
-  public saveMatch = async (match: newMatch, authorization: string) => {
-    // checando se algum token foi enviado
-    if (!authorization) throw new UnauthorizedError('Token must be a valid token');
+  public saveMatch = async (match: newMatch) => {
+    // checando se algum token foi enviado - authorization: string
+    // if (!authorization) throw new UnauthorizedError('Token must be a valid token');
+
+    // const authorized = await JWT.decodeToken(authorization);
+    // console.log(authorized);
+
+    // if (!authorized) throw new UnauthorizedError('Token must be a valid token');
 
     // checando se os times são iguais
     if (match.awayTeam === match.homeTeam) {
       throw new MatchError('It is not possible to create a match with two equal teams');
     }
-
-    const authorized = await JWT.decodeToken(authorization);
-    console.log(authorized);
-
-    if (!authorized) throw new UnauthorizedError('Token must be a valid token');
 
     // checar se o id existe
     const idAwayTeam = await Matches.findOne({ where: { id: match.awayTeam } });

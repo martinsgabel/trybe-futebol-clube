@@ -23,10 +23,11 @@ export default class MatchesController {
 
   public saveMatch = async (req: Request, res: Response) => {
     const { body } = req;
-    const { authorization } = req.headers;
+    // const { authorization } = req.headers;
 
+    // authorization as string
     const result = await this.matchesService
-      .saveMatch({ ...body, inProgress: true }, authorization as string);
+      .saveMatch({ ...body, inProgress: true });
 
     return res.status(201).json(result);
   };
@@ -34,7 +35,6 @@ export default class MatchesController {
   public finishMatch = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      console.log(id);
 
       await this.matchesService.finishMatch(id);
 
