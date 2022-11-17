@@ -45,7 +45,7 @@ export default class MatchesService {
       throw new MatchError('It is not possible to create a match with two equal teams');
     }
 
-    const authorized = await JWT.decodePassword(authorization);
+    const authorized = await JWT.decodeToken(authorization);
     console.log(authorized);
 
     if (!authorized) throw new UnauthorizedError('Token must be a valid token');

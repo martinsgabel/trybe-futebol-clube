@@ -41,16 +41,9 @@ export default class UsersService {
   };
 
   public validate = async (token: string) => {
-    const password = token;
-
-    // checar token na lista de usuários
-    const user = await Users.findOne({ where: { password } });
-
-    if (!user) throw new Error();
+    const user = await JWT.decodeToken(token);
 
     const { role } = user;
-
-    // retornar role do usuário
     return role;
   };
 }
