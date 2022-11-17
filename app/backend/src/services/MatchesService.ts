@@ -62,4 +62,11 @@ export default class MatchesService {
 
     return newMatch;
   };
+
+  public finishMatch = async (id: string) => {
+    await Matches.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+  };
 }

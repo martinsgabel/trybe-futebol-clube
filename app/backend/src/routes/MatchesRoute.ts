@@ -7,6 +7,7 @@ const matchesController = new MatchesController();
 
 matchesRouter
   .get('/matches', matchesController.getAllMatches)
-  .post('/matches', matchesController.saveMatch);
+  .post('/matches', matchesController.saveMatch)
+  .patch('/matches/:id/finish', matchesController.finishMatch);
 
 export default matchesRouter;
