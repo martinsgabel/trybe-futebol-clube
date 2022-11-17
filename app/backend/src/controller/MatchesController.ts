@@ -25,6 +25,8 @@ export default class MatchesController {
     const { body } = req;
     const { authorization } = req.headers;
 
+    console.log(authorization);
+
     const result = await this.matchesService
       .saveMatch({ ...body, inProgress: true }, authorization as string);
 
