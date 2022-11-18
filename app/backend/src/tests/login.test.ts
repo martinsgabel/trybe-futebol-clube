@@ -13,32 +13,6 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Teste de rota inicial e login', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
-
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
   it('rota geral deve retornar status 200 com mensagem "ok" ', async () => {
     const httpResponse = await chai.request(app).get('/')
       expect(httpResponse.status).to.equal(200)
@@ -82,10 +56,18 @@ describe('Teste de rota inicial e login', () => {
     sinon.restore()
   });
 
-  /* it('quando o email é encontrado mas a senha é incorreta', async () => {
-    
+  it('quando o email é encontrado mas a senha é incorreta', async () => {
+    sinon.stub(Model, 'findOne').resolves(null)
+
+    const httpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send({ email: '123' })
+    expect(httpResponse.status).to.equal(401)
+    expect(httpResponse.body).to.deep.equal({ error: 'Incorrect email or password' })
+
+    sinon.restore()
   });
-  */
 
   it('quando as credenciais estão corretas', async () => {
     const user = { id: 1, username: 'admin', email: 'any_email@email.com', password: '123456' }

@@ -101,3 +101,17 @@ describe('Teste da rota /matches', () => {
     sinon.restore();
   })
 })
+
+// it('a rota /matches não deve permitir times iguais', async() => {
+//   const mockMatch = {}
+// })
+
+// it('a rota /matches/:id deve retornar um erro caso o id seja inexistente', async() => {
+//   sinon.stub(Teams, 'findOne').resolves(null);
+
+//   const httpResponse = await chai.request(app).get('/teams/1')
+//     expect(httpResponse.status).to.equal(404)
+//     expect(httpResponse.body).to.deep.equal({ message: 'Team not found!' })
+  
+//   sinon.restore();
+// })

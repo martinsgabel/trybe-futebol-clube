@@ -23,9 +23,6 @@ export default class MatchesController {
 
   public saveMatch = async (req: Request, res: Response) => {
     const { body } = req;
-    // const { authorization } = req.headers;
-
-    // authorization as string
     const result = await this.matchesService
       .saveMatch({ ...body, inProgress: true });
 
@@ -41,6 +38,18 @@ export default class MatchesController {
       return res.status(200).json({ message: 'Finished' });
     } catch (error) {
       next(error);
+    }
+  };
+
+  public updateMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const updated = await this.matchesService.updateMatch(req.body, id);
+
+      return res.status(200).json(updated);
+    } catch (error) {
+      next();
     }
   };
 }

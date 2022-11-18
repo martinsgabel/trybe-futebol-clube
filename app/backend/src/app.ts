@@ -4,6 +4,7 @@ import usersRouter from './routes/UsersRoute';
 import 'express-async-errors';
 import teamsRouter from './routes/TeamsRoute';
 import matchesRouter from './routes/MatchesRoute';
+import leaderboardRouter from './routes/LeaderboardRoute';
 
 class App {
   public app: express.Express;
@@ -31,6 +32,7 @@ class App {
     this.app.use(usersRouter);
     this.app.use(teamsRouter);
     this.app.use(matchesRouter);
+    this.app.use(leaderboardRouter);
     this.app.use(errorMiddleware);
   }
 
