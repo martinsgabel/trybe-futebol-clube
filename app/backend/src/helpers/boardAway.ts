@@ -21,7 +21,7 @@ SUM(MA.away_team_goals) AS goalsFavor,
 SUM(MA.home_team_goals) AS goalsOwn,
 SUM(MA.away_team_goals) - SUM(MA.home_team_goals) AS goalsBalance,
 FORMAT((SUM(CASE  
-  WHEN MA.away_tea  m_goals > MA.home_team_goals THEN 3
+  WHEN MA.away_team_goals > MA.home_team_goals THEN 3
   WHEN MA.away_team_goals < MA.home_team_goals THEN 0
   ELSE 1 END
 ) / (COUNT(TE.id) * 3)) * 100, 2) AS efficiency
