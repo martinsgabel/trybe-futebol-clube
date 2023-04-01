@@ -6,7 +6,6 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import { Model } from 'sequelize/types';
 import Users from '../database/models/UsersModel';
-import UsersService from '../services/UsersService';
 
 chai.use(chaiHttp);
 
